@@ -2,32 +2,27 @@
 #define CANTIDAD_ELEMENTOS(x) (sizeof (x) / sizeof (*(x)))
 
 int zambeca[] = {
-  1,1,0,0,0,1,1,
-  1,1,1,0,0,1,1,
-  1,1,1,1,0,1,1,
-  1,1,0,1,1,1,1,
-  1,1,0,0,1,1,1,
+  1,1,0,0,0,0,1,
+  1,1,1,0,0,0,1,
+  1,0,0,1,0,0,1,
+  1,0,0,0,1,1,1,
+  1,0,0,0,0,1,1,
   0,0,0,0,0,0,0,
   1,1,1,1,1,1,0,
-  1,1,1,1,1,1,1,
-  0,0,1,1,0,1,1,
-  0,0,1,1,0,1,1,
-  1,1,1,1,1,1,1,
+  0,0,0,1,0,0,1,
+  0,0,0,1,0,0,1,
   1,1,1,1,1,1,0,
   0,0,0,0,0,0,0,
   1,1,1,1,1,1,1,
-  1,1,1,1,1,1,0,
-  0,0,0,1,1,0,0,
-  0,0,1,1,0,0,0,
-  0,0,0,1,1,0,0,
-  1,1,1,1,1,1,0,
+  0,0,0,0,1,0,0,
+  0,0,0,1,0,0,0,
+  0,0,0,0,1,0,0,
   1,1,1,1,1,1,1,
   0,0,0,0,0,0,0,
-  1,1,1,1,1,1,1,
   1,1,1,1,1,1,1,
   1,0,0,1,0,0,1,
   1,0,0,1,0,0,1,
-  1,1,1,0,1,1,0,
+  0,1,1,0,1,1,0,
   0,0,0,0,0,0,0,
   1,1,1,1,1,1,1,
   1,1,1,1,1,1,1,
@@ -36,16 +31,13 @@ int zambeca[] = {
   1,1,0,1,0,1,1,
   0,0,0,0,0,0,0,
   1,1,1,1,1,1,1,
-  1,1,1,1,1,1,1,
   1,1,0,0,0,1,1,
-  1,1,0,0,0,1,1,
-  1,1,0,0,0,1,1,
+  1,0,0,0,0,0,1,
+  1,0,0,0,0,0,1,
   0,0,0,0,0,0,0,
   1,1,1,1,1,1,0,
-  1,1,1,1,1,1,1,
-  0,0,1,1,0,1,1,
-  0,0,1,1,0,1,1,
-  1,1,1,1,1,1,1,
+  0,0,0,1,0,0,1,
+  0,0,0,1,0,0,1,
   1,1,1,1,1,1,0,
   0,0,0,0,0,0,0
 };
@@ -89,7 +81,7 @@ enum IR {
   NEGRO
 } estadoIR=BLANCO;
 
-unsigned long delayIR=1;
+unsigned long delayIR=500; //microsegundos
 unsigned long tiempoIRUltimaVuelta=0;
 
 void loop() {
@@ -97,7 +89,7 @@ void loop() {
   tiempoActual=micros();
   tiempoIRActual=tiempoActual;
 
-  if(((tiempoIRActual-tiempoIRPasado)>(delayIR*1000))) { //50 milisegundos
+  if(((tiempoIRActual-tiempoIRPasado)>delayIR)) { 
     int ir=analogRead(irPin);
 
     if((estadoIR==BLANCO) && (ir > 800)) { //llegue a la marca
@@ -106,8 +98,8 @@ void loop() {
       
       //Actualizo el filaDelay de acuerdo a la velocidad real;
 
-      //Quiero 4 mm de ancho de letra
-      filaDelay=0.005/(2*3.1415*0.08*rpmicros);
+      //Quiero 2 mm de ancho de letra
+      filaDelay=0.002/(2.0*3.1415*0.08*rpmicros);
 
       tiempoIRUltimaVuelta=tiempoIRActual;
     }
